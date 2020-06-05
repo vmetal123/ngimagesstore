@@ -1,0 +1,74 @@
+<div class="w-full">
+  <div class="rounded shadow-lg mx-auto p-5">
+    <h4 class="font-bold mb-6 text-xl">Register form</h4>
+    <form [formGroup]="registerForm">
+      <hr class="mb-2">
+      <div class="grid grid-cols-2 gap-3">
+        <div class="mb-4">
+          <label for="" class="block font-bold mb-2">FirstName</label>
+          <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3" formControlName="firstName" [class.border-red-500]="firstName.invalid && firstName.touched" [class.border-blue-900]="firstName.touched && firstName.valid">
+          <div *ngIf="firstName.touched && firstName.invalid" class="text-red-500">
+            <small>Required</small>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="" class="block font-bold mb-2">LastName</label>
+          <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3" formControlName="lastName" [class.border-red-500]="lastName.invalid && lastName.touched" [class.border-blue-900]="lastName.touched && lastName.valid">
+          <div *ngIf="lastName.touched && lastName.invalid" class="text-red-500">
+            <small>Required</small>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="" class="block font-bold mb-2">UserName</label>
+          <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3" formControlName="userName" [class.border-red-500]="userName.invalid && userName.touched" [class.border-blue-900]="userName.touched && userName.valid">
+          <div *ngIf="userName.touched && userName.invalid" class="text-red-500">
+            <small>Required</small>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="" class="block font-bold mb-2">Email</label>
+          <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3" formControlName="email" [class.border-red-500]="email.invalid && email.touched" [class.border-blue-900]="email.touched && email.valid">
+          <div *ngIf="email.touched && email.hasError('required')" class="text-red-500">
+            <small>Required</small>
+          </div>
+          <div *ngIf="email.touched && email.hasError('email')" class="text-red-500">
+            <small>Invalid email</small>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="" class="block font-bold mb-2">Password</label>
+          <input type="password" class="shadow appearance-none border rounded w-full py-2 px-3" [class.border-red-500]="(password.invalid && password.touched) || confirmPassword.hasError('mustMatch')"
+            formControlName="password" [class.border-blue-900]="password.touched && password.valid">
+          <div *ngIf="password.touched && password.invalid" class="text-red-500">
+            <small>Required</small>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="" class="block font-bold mb-2">Confirm Password</label>
+          <input type="password" class="shadow appearance-none border rounded w-full py-2 px-3"
+            formControlName="confirmPassword" [class.border-red-500]="confirmPassword.touched && (confirmPassword.hasError('required') || confirmPassword.hasError('mustMatch'))" [class.border-blue-900]="confirmPassword.touched && confirmPassword.valid">
+          <div *ngIf="confirmPassword.touched && confirmPassword.errors?.required" class="text-red-500">
+            <small>Required</small>
+          </div>
+
+          <div *ngIf="confirmPassword.hasError('mustMatch')" class="text-red-500">
+            <small>Password and Confirm Password don't match</small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mb-4">
+        <button class="bg-blue-900 text-white py-2 px-4 rounded font-bold"
+          [disabled]="registerForm.invalid">Register</button>
+      </div>
+    </form>
+  </div>
+
+  {{confirmPassword.errors | json}}
+</div>
