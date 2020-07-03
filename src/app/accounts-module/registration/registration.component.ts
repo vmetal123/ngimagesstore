@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { MustMatch } from 'src/app/validation/must-match.validator';
+import { User } from '../models/user.model';
+import { AccountService } from 'src/app/services/account.service';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-registration',
@@ -12,7 +16,10 @@ export class RegistrationComponent implements OnInit {
   registerForm: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private accountService: AccountService,
+    private toastr: ToastrService,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -54,5 +61,30 @@ export class RegistrationComponent implements OnInit {
 
   get confirmPassword() {
     return this.registerForm.get('confirmPassword')
+  }
+
+  createUser(form: FormGroup) {
+    const {firstName, lastName, userName, email, password} = form.value;
+
+    const user: User = {
+      firstName,
+      lastName,
+      userName,
+      email,
+      password
+    }
+
+    this.accountService.createUser(user).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        this.toastr.error(err);
+      }
+    );
+  }
+
+  return() {
+    this.location.back();
   }
 }
